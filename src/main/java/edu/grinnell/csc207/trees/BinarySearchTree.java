@@ -1,5 +1,6 @@
 package edu.grinnell.csc207.trees;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -84,22 +85,58 @@ public class BinarySearchTree<T extends Comparable<? super T>> {
      * @return the elements of this tree collected via an in-order traversal
      */
     public List<T> toListInorder() {
-        throw new UnsupportedOperationException();
+        List<T> list = new ArrayList<>();
+        inorderRec(this.root, list);
+        return list;
+    }
+    
+    private void inorderRec(Node<T> cur, List<T> list){
+      if(cur != null){  
+          inorderRec(cur.left, list);
+          list.add(cur.value);
+          inorderRec(cur.right, list);
+          
+      }
     }
 
     /**
      * @return the elements of this tree collected via a pre-order traversal
+     * Check if the data is null (is a leaf) if not the recur on the left and then the right.
      */
     public List<T> toListPreorder() {
-        throw new UnsupportedOperationException();
+        List<T> list = new ArrayList<>();
+        preorderRec(this.root, list);
+        return list;
+    }
+    
+    private void preorderRec(Node<T> cur, List<T> list){
+      if(cur!= null){
+            list.add(cur.value);
+            preorderRec(cur.left, list);
+            preorderRec(cur.right, list);
+        
+        }       
     }
 
     /**
      * @return the elements of this tree collected via a post-order traversal
      */
     public List<T> toListPostorder() {
-        throw new UnsupportedOperationException();
+        List<T> list = new ArrayList<>();
+        postorderRec(this.root, list);
+        return list;
     }
+    
+    private void postorderRec(Node<T> cur, List<T> list){
+      if(cur != null){  
+          postorderRec(cur.left, list);
+          postorderRec(cur.right, list);
+          list.add(cur.value);
+          
+      }
+    }
+    
+    
 
     ///// Part 2: Contains
 
@@ -108,7 +145,25 @@ public class BinarySearchTree<T extends Comparable<? super T>> {
      * @return true iff the tree contains <code>value</code>
      */
     public boolean contains(T value) {
-        throw new UnsupportedOperationException();
+      return containsRec(this.root, value, false);
+    }
+    
+    public boolean containsRec(Node<T> cur, T value, boolean isFound) {
+        //if already found do nothing
+        if (isFound) {
+            return isFound;
+        }
+        
+        if (cur != null) {
+            if (value.compareTo(cur.value) == 0) {
+                isFound = true;
+                
+            } else {
+                isFound = containsRec(cur.left, value, isFound);
+                isFound = containsRec(cur.right, value, isFound);
+            }
+        }
+        return isFound;
     }
 
     ///// Part 3: Pretty Printing
