@@ -9,11 +9,11 @@ import java.util.List;
 public class BinarySearchTree<T extends Comparable<? super T>> {
 
     ///// From the reading
-
     /**
      * A node of the binary search tree.
      */
     private static class Node<T> {
+
         T value;
         Node<T> left;
         Node<T> right;
@@ -42,7 +42,8 @@ public class BinarySearchTree<T extends Comparable<? super T>> {
     /**
      * Constructs a new empty binary search tree.
      */
-    public BinarySearchTree() { }
+    public BinarySearchTree() {
+    }
 
     private int sizeH(Node<T> node) {
         if (node == null) {
@@ -80,7 +81,6 @@ public class BinarySearchTree<T extends Comparable<? super T>> {
     }
 
     ///// Part 1: Traversals
-
     /**
      * @return the elements of this tree collected via an in-order traversal
      */
@@ -89,33 +89,34 @@ public class BinarySearchTree<T extends Comparable<? super T>> {
         inorderRec(this.root, list);
         return list;
     }
-    
-    private void inorderRec(Node<T> cur, List<T> list){
-      if(cur != null){  
-          inorderRec(cur.left, list);
-          list.add(cur.value);
-          inorderRec(cur.right, list);
-          
-      }
+
+    private void inorderRec(Node<T> cur, List<T> list) {
+        if (cur != null) {
+            inorderRec(cur.left, list);
+            list.add(cur.value);
+            inorderRec(cur.right, list);
+
+        }
     }
 
     /**
      * @return the elements of this tree collected via a pre-order traversal
-     * Check if the data is null (is a leaf) if not the recur on the left and then the right.
+     * Check if the data is null (is a leaf) if not the recur on the left and
+     * then the right.
      */
     public List<T> toListPreorder() {
         List<T> list = new ArrayList<>();
         preorderRec(this.root, list);
         return list;
     }
-    
-    private void preorderRec(Node<T> cur, List<T> list){
-      if(cur!= null){
+
+    private void preorderRec(Node<T> cur, List<T> list) {
+        if (cur != null) {
             list.add(cur.value);
             preorderRec(cur.left, list);
             preorderRec(cur.right, list);
-        
-        }       
+
+        }
     }
 
     /**
@@ -126,38 +127,35 @@ public class BinarySearchTree<T extends Comparable<? super T>> {
         postorderRec(this.root, list);
         return list;
     }
-    
-    private void postorderRec(Node<T> cur, List<T> list){
-      if(cur != null){  
-          postorderRec(cur.left, list);
-          postorderRec(cur.right, list);
-          list.add(cur.value);
-          
-      }
+
+    private void postorderRec(Node<T> cur, List<T> list) {
+        if (cur != null) {
+            postorderRec(cur.left, list);
+            postorderRec(cur.right, list);
+            list.add(cur.value);
+
+        }
     }
-    
-    
 
     ///// Part 2: Contains
-
     /**
      * @param value the value to search for
      * @return true iff the tree contains <code>value</code>
      */
     public boolean contains(T value) {
-      return containsRec(this.root, value, false);
+        return containsRec(this.root, value, false);
     }
-    
+
     public boolean containsRec(Node<T> cur, T value, boolean isFound) {
         //if already found do nothing
         if (isFound) {
             return isFound;
         }
-        
+
         if (cur != null) {
             if (value.compareTo(cur.value) == 0) {
                 isFound = true;
-                
+
             } else {
                 isFound = containsRec(cur.left, value, isFound);
                 isFound = containsRec(cur.right, value, isFound);
@@ -167,27 +165,38 @@ public class BinarySearchTree<T extends Comparable<? super T>> {
     }
 
     ///// Part 3: Pretty Printing
-
     /**
-     * @return a string representation of the tree obtained via an pre-order traversal in the
-     *         form: "[v0, v1, ..., vn]"
+     * @return a string representation of the tree obtained via an pre-order
+     * traversal in the form: "[v0, v1, ..., vn]"
      */
     public String toStringPreorder() {
-        throw new UnsupportedOperationException();
+        String string = "";
+        if (this.root != null) {
+            string = "[" + this.root.value.toString();
+            string += stringRec(root.left) + stringRec(root.right);
+            string += "]";
+        }
+        return string;
+    }
+
+    private String stringRec(Node cur) {
+        if (cur == null) {
+            return "";
+        } else {
+            return ", " + cur.value.toString() + stringRec(cur.left) + stringRec(cur.right);
+        }
     }
 
     ///// Part 4: Deletion
-  
     /*
      * The three cases of deletion are:
      * 1. (TODO: fill me in!)
      * 2. (TODO: fill me in!)
      * 3. (TOOD: fill me in!)
      */
-
     /**
-     * Modifies the tree by deleting the first occurrence of <code>value</code> found
-     * in the tree.
+     * Modifies the tree by deleting the first occurrence of <code>value</code>
+     * found in the tree.
      *
      * @param value the value to delete
      */
