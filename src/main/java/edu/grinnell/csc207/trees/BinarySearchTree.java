@@ -190,9 +190,9 @@ public class BinarySearchTree<T extends Comparable<? super T>> {
     ///// Part 4: Deletion
     /*
      * The three cases of deletion are:
-     * 1. (TODO: fill me in!)
-     * 2. (TODO: fill me in!)
-     * 3. (TOOD: fill me in!)
+     * 1. (V has both leaves. so just delete v)
+     * 2. (Either left or right of v is a leaf so you shift the non leaf)
+     * 3. (Neither left or right are leaves so we determine the one with the least complex shift and do as needed)
      */
     /**
      * Modifies the tree by deleting the first occurrence of <code>value</code>
@@ -202,5 +202,63 @@ public class BinarySearchTree<T extends Comparable<? super T>> {
      */
     public void delete(T value) {
         throw new UnsupportedOperationException();
+    }
+
+    private boolean searchDelete(Node<T> cur, T value, boolean isDeleted) {
+        if (isDeleted) {
+            return isDeleted;
+        }
+
+        //good to check in curr
+        if (cur != null) {
+            //if left is good to check
+            if (cur.left != null) {
+                if (value.compareTo(cur.left.value) == 0) {
+                    
+                    //first case both leaves
+                    if (cur.left.left == null && cur.left.right == null){
+                        cur.left = null;
+                        
+                    //second case one leaf
+                    } else if (cur.left.left == null || cur.left.right == null){
+                        if (cur.left.left == null){
+                            cur.left = cur.left.right;
+                        } else {
+                            cur.left = cur.left.left;
+                        }
+                    }
+                    isDeleted = true;
+                    return isDeleted;
+                }
+
+            }
+            if (cur.right != null) {
+                if (value.compareTo(cur.right.value) == 0) {
+                    if (cur.right.left == null && cur.right.right == null){
+                        cur.right = null;
+                    } else if (cur.right.left == null || cur.right.right == null){
+                        if (cur.right.left == null){
+                           cur.right = cur.right.right; 
+                        } else {
+                            cur.right = cur.right.left;
+                        }
+                    }
+                    isDeleted = true;
+                    return isDeleted;
+                }
+
+            }
+
+            isDeleted = searchDelete(cur.left, value, isDeleted);
+            isDeleted = searchDelete(cur.right, value, isDeleted);
+        }
+
+        return isDeleted;
+
+    }
+
+    private void performDelete(Node<T> parent,char direction) {
+        //Case: Both leaves
+        
     }
 }
